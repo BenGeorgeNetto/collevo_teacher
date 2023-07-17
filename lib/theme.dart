@@ -1,6 +1,6 @@
 import 'package:collevo_teacher/colors.dart';
+import 'package:collevo_teacher/text_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CustomTheme {
   static ThemeData getThemeData() {
@@ -14,9 +14,10 @@ class CustomTheme {
           fontFamily: 'Poppins',
           fontWeight: FontWeight.w500,
           fontSize: 28,
+          color: CustomColors.manga,
         ),
       ),
-      textTheme: GoogleFonts.poppinsTextTheme(),
+      textTheme: const CustomTextTheme(),
       scaffoldBackgroundColor: CustomColors.voidColor,
       cardTheme: const CardTheme(
         color: CustomColors.blueGray,
@@ -29,14 +30,14 @@ class CustomTheme {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: CustomColors.buttonBlue,
-          padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+          padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 36.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.2),
           ),
           textStyle: const TextStyle(
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w600,
-            fontSize: 18,
+            fontSize: 24,
           ),
         ),
       ),
@@ -46,7 +47,7 @@ class CustomTheme {
             textStyle: const TextStyle(
               fontFamily: 'Poppins',
               fontWeight: FontWeight.w500,
-              fontSize: 14,
+              fontSize: 18,
             )),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -54,8 +55,8 @@ class CustomTheme {
           // foregroundColor: CustomColors.buttonBlue,
           // backgroundColor: CustomColors.voidColor,
           padding: const EdgeInsets.symmetric(
-            vertical: 12.0,
-            horizontal: 24.0,
+            vertical: 18.0,
+            horizontal: 36.0,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -63,7 +64,7 @@ class CustomTheme {
           textStyle: const TextStyle(
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w500,
-            fontSize: 14,
+            fontSize: 18,
           ),
         ),
       ),
