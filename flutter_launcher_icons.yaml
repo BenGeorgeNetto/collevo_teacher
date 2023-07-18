@@ -1,0 +1,5 @@
+flutter_launcher_icons:
+  image_path: "assets/icon/collevo_logo.png"
+  web:
+    generate: true
+    image_path: "assets/icon/collevo_logo.png"
