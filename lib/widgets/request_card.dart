@@ -13,6 +13,10 @@ class RequestCard extends StatelessWidget {
     var requestIdSplit = request.requestId.split('_');
     final requestIdSubstring = requestIdSplit[2];
     final studentName = requestIdSplit[1];
+    double imageMaxSize = 800;
+    double preferredSize = MediaQuery.of(context).size.width * 0.5;
+    double imageSize =
+        preferredSize > imageMaxSize ? imageMaxSize : preferredSize;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Card(
@@ -51,14 +55,22 @@ class RequestCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.network(
-                    request.imageUrl,
-                    fit: BoxFit.fitWidth,
-                    errorBuilder: (context, error, stackTrace) {
-                      // print(stackTrace);
-                      // print(error);
-                      return const Icon(Icons.error);
-                    },
+                  SizedBox(
+                    width: double.infinity,
+                    child: Center(
+                      child: SizedBox(
+                        width: imageSize,
+                        child: Image.network(
+                          request.imageUrl,
+                          fit: BoxFit.fitWidth,
+                          errorBuilder: (context, error, stackTrace) {
+                            // print(stackTrace);
+                            // print(error);
+                            return const Icon(Icons.error);
+                          },
+                        ),
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Padding(
