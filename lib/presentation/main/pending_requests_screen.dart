@@ -84,7 +84,7 @@ class _PendingRequestsState extends State<PendingRequests> {
       await requestsService.updateRequestStatus(request, status);
       _loadRequests();
     } catch (e) {
-      print("Error updating request status: $e");
+      // print("Error updating request status: $e");
     }
   }
 }

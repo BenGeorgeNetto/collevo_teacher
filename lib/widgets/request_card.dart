@@ -55,9 +55,9 @@ class RequestCard extends StatelessWidget {
                     request.imageUrl,
                     fit: BoxFit.fitWidth,
                     errorBuilder: (context, error, stackTrace) {
-                      print(stackTrace);
-                      print(error);
-                      return Icon(Icons.error);
+                      // print(stackTrace);
+                      // print(error);
+                      return const Icon(Icons.error);
                     },
                   ),
                   const SizedBox(height: 8),

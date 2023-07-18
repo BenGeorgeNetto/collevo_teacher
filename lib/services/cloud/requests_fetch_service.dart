@@ -60,7 +60,7 @@ class RequestsFetchService {
       int statusIndex = status.index;
       await requestRef.update({'status': statusIndex});
     } catch (e) {
-      print('Error updating request status: $e');
+      // print('Error updating request status: $e');
     }
   }
 
@@ -125,10 +125,10 @@ class RequestsFetchService {
           'activity_points': updatedActivityPoints,
         });
       } else {
-        print('No student document found with UID: $uid');
+        // print('No student document found with UID: $uid');
       }
     } catch (e) {
-      print('Error updating activity points: $e');
+      // print('Error updating activity points: $e');
     }
   }
 }
