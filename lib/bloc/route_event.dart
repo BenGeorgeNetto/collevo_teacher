@@ -7,4 +7,8 @@ enum RouteEvent {
   profile,
   settings,
   about,
+  pendingRequests,
+  acceptedRequests,
+  rejectedRequests,
+  forgotPassword,
 }
