@@ -40,8 +40,11 @@ class LoadingScreen {
     _text.add(text);
 
     final state = Overlay.of(context);
-    final renderBox = context.findRenderObject() as RenderBox;
-    final size = renderBox.size;
+    // final renderBox = context.findRenderObject() as RenderBox;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double desiredWidth = screenWidth * 0.5;
+    double maxWidth = 400.0;
+    double containerWidth = desiredWidth > maxWidth ? maxWidth : desiredWidth;
 
     final overlay = OverlayEntry(
       builder: (context) {
@@ -50,11 +53,7 @@ class LoadingScreen {
           elevation: 4.0,
           child: Center(
             child: Container(
-              constraints: BoxConstraints(
-                maxWidth: size.width * 0.8,
-                maxHeight: size.height * 0.8,
-                minWidth: size.width * 0.5,
-              ),
+              width: containerWidth,
               decoration: BoxDecoration(
                 color: CustomColors.voidColor,
                 borderRadius: BorderRadius.circular(10.0),
