@@ -65,10 +65,10 @@ class PreferencesService {
     return preferences.getString('batch');
   }
 
-  Future<String?> getDept() async {
-    final preferences = await SharedPreferences.getInstance();
-    return preferences.getString('dept');
-  }
+  // Future<String?> getDept() async {
+  //   final preferences = await SharedPreferences.getInstance();
+  //   return preferences.getString('dept');
+  // }
 
   Future<void> setUid() async {
     final preferences = await _getSharedPreferencesInstance();
