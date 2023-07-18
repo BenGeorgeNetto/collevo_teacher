@@ -1,7 +1,6 @@
-import 'package:collevo_teacher/bloc/route_bloc.dart';
 import 'package:collevo_teacher/services/preferences/preferences_service.dart';
+import 'package:collevo_teacher/widgets/home_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,24 +16,74 @@ class _HomeScreenState extends State<HomeScreen> {
   String? email;
 
   @override
+  void initState() {
+    super.initState();
+    fetchUserDetails();
+  }
+
+  Future<void> fetchUserDetails() async {
+    name = await preferencesService.getName();
+    email = await preferencesService.getEmail();
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final routeBloc = BlocProvider.of<RouteBloc>(context);
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('collevo'),
-        ),
+        appBar: AppBar(title: const Text('collevo'), actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () {
+                Navigator.pushNamed(context, '/settings');
+              },
+            ),
+          ),
+        ]),
         body: Padding(
           padding: const EdgeInsets.all(32.0),
-          child: Center(
-            child: SingleChildScrollView(
+          child: SingleChildScrollView(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      routeBloc.add(RouteEvent.about);
-                    },
-                    child: const Text('About'),
+                  Text(
+                    "Welcome, $name",
+                    style: const TextStyle(fontSize: 32.0),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.05,
+                  ),
+                  const HomeCard(
+                    cardText: "Pending Requests",
+                    routeName: '/pending_requests',
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.05 / 4,
+                  ),
+                  const HomeCard(
+                    cardText: "Accepted Requests",
+                    routeName: '/accepted_requests',
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.05 / 4,
+                  ),
+                  const HomeCard(
+                    cardText: "Rejected Requests",
+                    routeName: '/rejected_requests',
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.05 / 4,
+                  ),
+                  const HomeCard(
+                    cardText: "My Profile",
+                    routeName: '/profile',
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.05 / 4,
                   ),
                 ],
               ),
