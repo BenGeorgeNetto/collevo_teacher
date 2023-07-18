@@ -1,11 +1,11 @@
 import 'package:collevo_teacher/landing.dart';
 import 'package:collevo_teacher/presentation/main/about_screen.dart';
-import 'package:collevo_teacher/presentation/main/accepted_requests_screen.dart';
+import 'package:collevo_teacher/presentation/requests/accepted_requests_screen.dart';
 import 'package:collevo_teacher/presentation/main/error_screen.dart';
 import 'package:collevo_teacher/presentation/main/home_screen.dart';
-import 'package:collevo_teacher/presentation/main/pending_requests_screen.dart';
+import 'package:collevo_teacher/presentation/requests/pending_requests_screen.dart';
 import 'package:collevo_teacher/presentation/main/profile_screen.dart';
-import 'package:collevo_teacher/presentation/main/rejected_requests_screen.dart';
+import 'package:collevo_teacher/presentation/requests/rejected_requests_screen.dart';
 import 'package:collevo_teacher/presentation/main/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
