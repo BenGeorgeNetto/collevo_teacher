@@ -1,5 +1,6 @@
 import 'package:collevo_teacher/models/request.dart';
 import 'package:flutter/material.dart';
+import 'package:collevo_teacher/data/activity_assigned_points.dart';
 
 class PendingRequestCard extends StatelessWidget {
   final Request request;
@@ -15,6 +16,13 @@ class PendingRequestCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int defaultActivityPoints = assignedPoints[request.activityId] ?? 0;
+    int pointsGoingToBeAdded = defaultActivityPoints;
+    final pointsController =
+        TextEditingController(text: pointsGoingToBeAdded.toString());
+    final isEditing = ValueNotifier<bool>(false);
+    final isReset = ValueNotifier<bool>(false);
+    final focusNode = FocusNode();
     var requestIdSplit = request.requestId.split('_');
     final studentName = requestIdSplit[1];
     double imageMaxSize = 800;
@@ -85,14 +93,75 @@ class PendingRequestCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Created at:',
+                            'Points to be awarded:',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          // TODO: Fix the focus issue when clicking edit icon
+                          ValueListenableBuilder<bool>(
+                            valueListenable: isEditing,
+                            builder: (context, isEditingValue, child) {
+                              return Row(
+                                children: [
+                                  Expanded(
+                                    child: TextField(
+                                      controller: pointsController,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium,
+                                      enabled: isEditingValue,
+                                      focusNode: focusNode,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(isEditingValue
+                                        ? Icons.check
+                                        : Icons.edit),
+                                    onPressed: () {
+                                      if (isEditingValue) {
+                                        pointsGoingToBeAdded =
+                                            int.parse(pointsController.text);
+                                      } else {
+                                        // Request focus to the TextField
+                                        focusNode.requestFocus();
+                                      }
+                                      isEditing.value = !isEditingValue;
+                                    },
+                                  ),
+                                  ValueListenableBuilder<bool>(
+                                    valueListenable: isReset,
+                                    builder: (context, isResetValue, child) {
+                                      return (pointsGoingToBeAdded !=
+                                              defaultActivityPoints)
+                                          ? IconButton(
+                                              icon: const Icon(Icons.refresh),
+                                              onPressed: () {
+                                              
+                                                pointsGoingToBeAdded =
+                                                    defaultActivityPoints;
+                                                pointsController.text =
+                                                    defaultActivityPoints
+                                                        .toString();
+                                                // Trigger a rebuild
+                                                isReset.value = !isResetValue;
+                                              },
+                                            )
+                                          : Container(); 
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Default Points:',
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           Text(
-                            '${request.createdAt}',
-                            style: Theme.of(context).textTheme.labelSmall,
+                            defaultActivityPoints.toString(),
+                            style: Theme.of(context).textTheme.labelMedium,
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: 16),
                           Text(
                             'Activity Type:',
                             style: Theme.of(context).textTheme.bodyMedium,
@@ -120,14 +189,15 @@ class PendingRequestCard extends StatelessWidget {
                             style: Theme.of(context).textTheme.labelSmall,
                           ),
                           const SizedBox(height: 8),
-                          Text(
-                            'Activity ID:',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          Text(
-                            request.activityId,
-                            style: Theme.of(context).textTheme.labelSmall,
-                          ),
+                          // For Debug purposes:
+                          // Text(
+                          //   'Activity ID:',
+                          //   style: Theme.of(context).textTheme.bodyMedium,
+                          // ),
+                          // Text(
+                          //   request.activityId,
+                          //   style: Theme.of(context).textTheme.labelSmall,
+                          // ),
                           const SizedBox(height: 16),
                           Row(
                             mainAxisSize: MainAxisSize.max,
