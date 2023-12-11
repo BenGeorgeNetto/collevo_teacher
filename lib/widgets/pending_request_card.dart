@@ -4,7 +4,7 @@ import 'package:collevo_teacher/data/activity_assigned_points.dart';
 
 class PendingRequestCard extends StatelessWidget {
   final Request request;
-  final VoidCallback? onAccept;
+  final void Function(int)? onAccept;
   final VoidCallback? onReject;
 
   const PendingRequestCard({
@@ -135,7 +135,6 @@ class PendingRequestCard extends StatelessWidget {
                                           ? IconButton(
                                               icon: const Icon(Icons.refresh),
                                               onPressed: () {
-                                              
                                                 pointsGoingToBeAdded =
                                                     defaultActivityPoints;
                                                 pointsController.text =
@@ -145,7 +144,7 @@ class PendingRequestCard extends StatelessWidget {
                                                 isReset.value = !isResetValue;
                                               },
                                             )
-                                          : Container(); 
+                                          : Container();
                                     },
                                   ),
                                 ],
@@ -204,7 +203,8 @@ class PendingRequestCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               ElevatedButton(
-                                onPressed: onAccept,
+                                onPressed: () =>
+                                    onAccept?.call(pointsGoingToBeAdded),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green,
                                 ),

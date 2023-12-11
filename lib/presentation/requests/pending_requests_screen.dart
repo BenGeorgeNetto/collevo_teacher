@@ -57,9 +57,9 @@ class _PendingRequestsState extends State<PendingRequests> {
                         final request = requests[index];
                         return PendingRequestCard(
                           request: request,
-                          onAccept: () {
+                          onAccept: (int pointsToBeAdded) {
                             _requestsFetchService.insertActivityPoints(
-                                request.activityId, request.createdBy);
+                                request.activityId, request.createdBy, pointsToBeAdded);
                             _updateRequestStatus(request, Status.approved);
                           },
                           onReject: () {

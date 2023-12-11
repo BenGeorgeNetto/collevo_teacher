@@ -1,4 +1,3 @@
-import 'package:collevo_teacher/data/activity_assigned_points.dart';
 import 'package:collevo_teacher/enums/status_enum.dart';
 import 'package:collevo_teacher/models/request.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,7 +5,7 @@ import 'package:collevo_teacher/services/preferences/preferences_service.dart';
 
 class RequestsFetchService {
   Map<String, int> activityPoints = {};
-  Map<String, int> activityPointsToBeAdded = assignedPoints;
+  // Map<String, int> activityPointsToBeAdded = assignedPoints;
   Future<List<Request>> fetchMyRequestsByStatus(Status status) async {
     try {
       final String? currentUserUID = await PreferencesService().getUid();
@@ -91,7 +90,8 @@ class RequestsFetchService {
     }
   }
 
-  Future<void> insertActivityPoints(String activityId, String uid) async {
+  Future<void> insertActivityPoints(
+      String activityId, String uid, int pointsToBeAdded) async {
     var activityIdSplit = activityId.split('_');
     var activityType = activityIdSplit[0];
     var activity = activityIdSplit[1];
@@ -110,11 +110,16 @@ class RequestsFetchService {
         final studentDocument = querySnapshot.docs.first;
         final activityPointsData = studentDocument['activity_points'];
 
-        int newActivityPointsValue = activityPointsData[activityType]! +
-            activityPointsToBeAdded[activityId]!;
+        // int newActivityPointsValue = activityPointsData[activityType]! +
+        //     activityPointsToBeAdded[activityId]!;
+        // int newActivityPartialPointsValue =
+        //     activityPointsData[activityPartialId]! +
+        //         activityPointsToBeAdded[activityId]!;
+
+        int newActivityPointsValue =
+            activityPointsData[activityType]! + pointsToBeAdded;
         int newActivityPartialPointsValue =
-            activityPointsData[activityPartialId]! +
-                activityPointsToBeAdded[activityId]!;
+            activityPointsData[activityPartialId]! + pointsToBeAdded;
 
         Map<String, int> updatedActivityPoints = Map.from(activityPointsData);
         updatedActivityPoints[activityType] = newActivityPointsValue;
