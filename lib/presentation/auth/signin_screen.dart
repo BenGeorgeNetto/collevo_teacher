@@ -162,15 +162,15 @@ class _SignInState extends State<SignIn> {
                         SizedBox(
                             height:
                                 MediaQuery.of(context).size.height * 0.05 / 4),
-                        OutlinedButton(
-                          onPressed: () {
-                            context.read<AuthBloc>().add(
-                                  const AuthEventShouldRegister(),
-                                );
-                          },
-                          child:
-                              const Text('Not registered yet? Register here'),
-                        )
+                        // OutlinedButton(
+                        //   onPressed: () {
+                        //     context.read<AuthBloc>().add(
+                        //           const AuthEventShouldRegister(),
+                        //         );
+                        //   },
+                        //   child:
+                        //       const Text('Not registered yet? Register here'),
+                        // )
                       ],
                     ),
                   ),
