@@ -5,6 +5,7 @@ import 'package:collevo_teacher/presentation/main/error_screen.dart';
 import 'package:collevo_teacher/presentation/main/home_screen.dart';
 import 'package:collevo_teacher/presentation/requests/pending_requests_screen.dart';
 import 'package:collevo_teacher/presentation/main/profile_screen.dart';
+import 'package:collevo_teacher/presentation/requests/previous_requests_screen.dart';
 import 'package:collevo_teacher/presentation/requests/rejected_requests_screen.dart';
 import 'package:collevo_teacher/presentation/main/settings_screen.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,13 @@ class Routes {
     handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
       return const RejectedRequests();
     },
+  );
+
+  static final Handler _previousRequestsHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+        String requestId = params["request_id"]?.first;
+        return PreviousRequests(requestId: requestId);
+      }
   );
 
   static final Handler _profile = Handler(
@@ -96,6 +104,11 @@ class Routes {
     router.define(
       '/rejected_requests',
       handler: _rejectedRequestsHandler,
+      transitionType: TransitionType.fadeIn,
+    );
+    router.define(
+      "/previous_requests/:request_id",
+      handler: _previousRequestsHandler,
       transitionType: TransitionType.fadeIn,
     );
     router.define(

@@ -198,6 +198,21 @@ class PendingRequestCard extends StatelessWidget {
                           //   style: Theme.of(context).textTheme.labelSmall,
                           // ),
                           const SizedBox(height: 16),
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: OutlinedButton(
+                                onPressed: () async {
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/previous_requests/${request.requestId}',
+                                  );
+                                },
+                                child: const Text('View Previous Requests'),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
                           Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -218,7 +233,7 @@ class PendingRequestCard extends StatelessWidget {
                                 child: const Text('Reject'),
                               ),
                             ],
-                          )
+                          ),
                         ],
                       ),
                     ),

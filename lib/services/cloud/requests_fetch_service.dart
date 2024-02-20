@@ -136,4 +136,66 @@ class RequestsFetchService {
       // print('Error updating activity points: $e');
     }
   }
+
+  Future<List<Request>> fetchPreviousAcceptedRequestsOfThatTypeByThatUser(
+      String userId, String activityType) async {
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('requests')
+          .where('created_by', isEqualTo: userId)
+          .where('status', isEqualTo: Status.approved.index)
+          .where('activity_type', isEqualTo: activityType)
+          .get();
+
+      final List<Request> acceptedRequests = querySnapshot.docs.map((doc) {
+        return Request(
+          requestId: doc['request_id'],
+          activityId: doc['activity_id'],
+          createdBy: doc['created_by'],
+          createdAt: doc['created_at'].toDate(),
+          imageUrl: doc['image_url'],
+          assignedTo: doc['assigned_to'],
+          status: Status.values[doc['status']],
+          activityType: doc['activity_type'],
+          activity: doc['activity'],
+          activityLevel: doc['activity_level'],
+        );
+      }).toList();
+
+      return acceptedRequests;
+    } catch (e) {
+      // print('Error fetching requests: $e');
+      return [];
+    }
+  }
+
+  Future<Request?> fetchRequestById(String requestId) async {
+    try {
+      final docSnapshot = await FirebaseFirestore.instance
+          .collection('requests')
+          .doc(requestId)
+          .get();
+
+      if (docSnapshot.exists) {
+        return Request(
+          requestId: docSnapshot['request_id'],
+          activityId: docSnapshot['activity_id'],
+          createdBy: docSnapshot['created_by'],
+          createdAt: docSnapshot['created_at'].toDate(),
+          imageUrl: docSnapshot['image_url'],
+          assignedTo: docSnapshot['assigned_to'],
+          status: Status.values[docSnapshot['status']],
+          activityType: docSnapshot['activity_type'],
+          activity: docSnapshot['activity'],
+          activityLevel: docSnapshot['activity_level'],
+        );
+      } else {
+        // print('No request found with ID: $requestId');
+        return null;
+      }
+    } catch (e) {
+      // print('Error fetching request: $e');
+      return null;
+    }
+  }
 }
