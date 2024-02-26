@@ -110,6 +110,11 @@ class RequestsFetchService {
         final studentDocument = querySnapshot.docs.first;
         final activityPointsData = studentDocument['activity_points'];
 
+        int totalActivityPoints =
+            studentDocument.data().containsKey('total_activity_points')
+                ? studentDocument['total_activity_points']
+                : 0;
+
         // int newActivityPointsValue = activityPointsData[activityType]! +
         //     activityPointsToBeAdded[activityId]!;
         // int newActivityPartialPointsValue =
@@ -121,6 +126,8 @@ class RequestsFetchService {
         int newActivityPartialPointsValue =
             activityPointsData[activityPartialId]! + pointsToBeAdded;
 
+        totalActivityPoints += pointsToBeAdded;
+
         Map<String, int> updatedActivityPoints = Map.from(activityPointsData);
         updatedActivityPoints[activityType] = newActivityPointsValue;
         updatedActivityPoints[activityPartialId] =
@@ -128,6 +135,7 @@ class RequestsFetchService {
 
         await studentDocument.reference.update({
           'activity_points': updatedActivityPoints,
+          'total_activity_points': totalActivityPoints,
         });
       } else {
         // print('No student document found with UID: $uid');

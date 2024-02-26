@@ -58,6 +58,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: MediaQuery.of(context).size.height * 0.05,
                   ),
                   const HomeCard(
+                    cardText: "Students Dashboard",
+                    routeName: '/students_dashboard',
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.05 / 2,
+                  ),
+                  const HomeCard(
                     cardText: "Pending Requests",
                     routeName: '/pending_requests',
                   ),
@@ -76,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     routeName: '/rejected_requests',
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.05 / 4,
+                    height: MediaQuery.of(context).size.height * 0.05 / 2,
                   ),
                   const HomeCard(
                     cardText: "My Profile",

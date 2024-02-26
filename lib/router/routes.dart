@@ -1,5 +1,6 @@
 import 'package:collevo_teacher/landing.dart';
 import 'package:collevo_teacher/presentation/main/about_screen.dart';
+import 'package:collevo_teacher/presentation/main/students_dashboard.dart';
 import 'package:collevo_teacher/presentation/requests/accepted_requests_screen.dart';
 import 'package:collevo_teacher/presentation/main/error_screen.dart';
 import 'package:collevo_teacher/presentation/main/home_screen.dart';
@@ -52,10 +53,9 @@ class Routes {
 
   static final Handler _previousRequestsHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-        String requestId = params["request_id"]?.first;
-        return PreviousRequests(requestId: requestId);
-      }
-  );
+    String requestId = params["request_id"]?.first;
+    return PreviousRequests(requestId: requestId);
+  });
 
   static final Handler _profile = Handler(
     handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
@@ -66,6 +66,12 @@ class Routes {
   static final Handler _settings = Handler(
     handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
       return const Settings();
+    },
+  );
+
+  static final Handler _studentsDashboard = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+      return const StudentsDashboard();
     },
   );
 
@@ -114,6 +120,11 @@ class Routes {
     router.define(
       '/profile',
       handler: _profile,
+      transitionType: TransitionType.fadeIn,
+    );
+    router.define(
+      '/students_dashboard',
+      handler: _studentsDashboard,
       transitionType: TransitionType.fadeIn,
     );
     router.define(
