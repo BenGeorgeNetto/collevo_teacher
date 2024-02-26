@@ -1,6 +1,6 @@
-import 'package:collevo_teacher/colors.dart';
 import 'package:collevo_teacher/models/category.dart';
 import 'package:collevo_teacher/services/preferences/preferences_service.dart';
+import 'package:collevo_teacher/widgets/student_dashboard/category_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter_new/flutter.dart' as charts;
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -145,7 +145,9 @@ class _StudentsDashboardState extends State<StudentsDashboard> {
                               studentsByCategory.keys.elementAt(index);
                           List<String> students = studentsByCategory[category]!;
                           return CategoryTile(
-                              category: category, students: students);
+                            category: category,
+                            students: students,
+                          );
                         },
                       ),
                     ),
@@ -153,84 +155,6 @@ class _StudentsDashboardState extends State<StudentsDashboard> {
                 ],
               ),
             ),
-    );
-  }
-}
-
-class StudentElement extends StatelessWidget {
-  final String element;
-
-  const StudentElement({
-    super.key,
-    required this.element,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double desiredWidth = screenWidth * 0.5;
-    double maxWidth = 700.0;
-    double containerWidth = desiredWidth > maxWidth ? maxWidth : desiredWidth;
-
-    return SizedBox(
-      width: containerWidth,
-      child: Column(
-        children: [
-          ListTile(
-            title: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                element,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            ),
-            onTap: () {},
-          ),
-          const Divider(
-            color: CustomColors.blueGray,
-            thickness: 1.0,
-            indent: 16.0,
-            endIndent: 16.0,
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class CategoryTile extends StatelessWidget {
-  final String category;
-  final List<String> students;
-
-  const CategoryTile({
-    Key? key,
-    required this.category,
-    required this.students,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double desiredWidth = screenWidth * 0.5;
-    double maxWidth = 750.0;
-    double containerWidth = desiredWidth > maxWidth ? maxWidth : desiredWidth;
-
-    return Align(
-      alignment: Alignment.center,
-      child: SizedBox(
-        width: containerWidth,
-        child: ExpansionTile(
-          title: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              '$category: ${students.length} Students',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
-          children:
-              students.map((name) => StudentElement(element: name)).toList(),
-        ),
-      ),
     );
   }
 }
