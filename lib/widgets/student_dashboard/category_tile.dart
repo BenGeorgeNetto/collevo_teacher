@@ -1,10 +1,11 @@
+import 'package:collevo_teacher/models/student_info.dart';
 import 'package:flutter/material.dart';
 
 import 'student_element.dart';
 
 class CategoryTile extends StatelessWidget {
   final String category;
-  final List<String> students;
+  final List<StudentInfo> students;
 
   const CategoryTile({
     Key? key,
@@ -31,8 +32,11 @@ class CategoryTile extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
-          children:
-          students.map((name) => StudentElement(element: name)).toList(),
+          children: students
+              .map(
+                (student) => StudentElement(studentInfo: student),
+              ) // Updated to pass StudentInfo to StudentElement
+              .toList(),
         ),
       ),
     );

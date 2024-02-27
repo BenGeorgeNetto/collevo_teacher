@@ -1,12 +1,13 @@
 import 'package:collevo_teacher/colors.dart';
+import 'package:collevo_teacher/models/student_info.dart';
 import 'package:flutter/material.dart';
 
 class StudentElement extends StatelessWidget {
-  final String element;
+  final StudentInfo studentInfo;
 
   const StudentElement({
     super.key,
-    required this.element,
+    required this.studentInfo,
   });
 
   @override
@@ -24,11 +25,14 @@ class StudentElement extends StatelessWidget {
             title: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                element,
+                studentInfo.name,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context)
+                  .pushNamed('/student_stats/${studentInfo.email}');
+            },
           ),
           const Divider(
             color: CustomColors.blueGray,

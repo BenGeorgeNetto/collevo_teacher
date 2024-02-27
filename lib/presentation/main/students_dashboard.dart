@@ -1,4 +1,5 @@
 import 'package:collevo_teacher/models/category.dart';
+import 'package:collevo_teacher/models/student_info.dart';
 import 'package:collevo_teacher/services/preferences/preferences_service.dart';
 import 'package:collevo_teacher/widgets/student_dashboard/category_tile.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class StudentsDashboard extends StatefulWidget {
 
 class _StudentsDashboardState extends State<StudentsDashboard> {
   late List<charts.Series<Category, String>> seriesList = [];
-  Map<String, List<String>> studentsByCategory = {};
+  Map<String, List<StudentInfo>> studentsByCategory = {};
 
   @override
   void initState() {
@@ -29,23 +30,25 @@ class _StudentsDashboardState extends State<StudentsDashboard> {
         .collection('students')
         .where("t_id", isEqualTo: tId)
         .get();
-    Map<String, List<String>> tempStudentsByCategory = {
+    Map<String, List<StudentInfo>> tempStudentsByCategory = {
       '0 - 25': [],
       '26 - 50': [],
       '51 - 75': [],
       '76 - 99': [],
       '100 and above': [],
     };
+
     List<Category> chartData = [];
     int totalStudents = studentsSnapshot.docs.length;
 
     for (var doc in studentsSnapshot.docs) {
-      final student = doc.data();
+      final student = doc.data() as Map<String, dynamic>;
       final totalPoints = student['total_activity_points'] ?? 0;
       final name = student['s_name'];
+      final email = student['email'];
 
       String categoryLabel = getCategoryLabel(totalPoints);
-      tempStudentsByCategory[categoryLabel]?.add(name);
+      tempStudentsByCategory[categoryLabel]?.add(StudentInfo(name, email));
     }
 
     tempStudentsByCategory.forEach((key, value) {
@@ -143,7 +146,8 @@ class _StudentsDashboardState extends State<StudentsDashboard> {
                         itemBuilder: (context, index) {
                           String category =
                               studentsByCategory.keys.elementAt(index);
-                          List<String> students = studentsByCategory[category]!;
+                          List<StudentInfo> students =
+                              studentsByCategory[category]!;
                           return CategoryTile(
                             category: category,
                             students: students,
