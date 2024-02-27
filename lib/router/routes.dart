@@ -1,5 +1,6 @@
 import 'package:collevo_teacher/landing.dart';
 import 'package:collevo_teacher/presentation/main/about_screen.dart';
+import 'package:collevo_teacher/presentation/main/student_stats_screen.dart';
 import 'package:collevo_teacher/presentation/main/students_dashboard.dart';
 import 'package:collevo_teacher/presentation/requests/accepted_requests_screen.dart';
 import 'package:collevo_teacher/presentation/main/error_screen.dart';
@@ -75,6 +76,13 @@ class Routes {
     },
   );
 
+  static final Handler _studentStats = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+      String email = params["email"]?.first;
+      return StudentStatsScreen(email: email);
+    },
+  );
+
   static final Handler _errorHandler = Handler(
     handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
       return const ErrorScreen();
@@ -125,6 +133,11 @@ class Routes {
     router.define(
       '/students_dashboard',
       handler: _studentsDashboard,
+      transitionType: TransitionType.fadeIn,
+    );
+    router.define(
+      '/student_stats/:email',
+      handler: _studentStats,
       transitionType: TransitionType.fadeIn,
     );
     router.define(
