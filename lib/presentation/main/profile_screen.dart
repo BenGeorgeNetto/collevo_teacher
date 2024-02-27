@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:collevo_teacher/services/preferences/preferences_service.dart';
+import 'package:collevo_teacher/widgets/profile/profile_element.dart';
+import 'package:collevo_teacher/widgets/profile/profile_sub_element.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
@@ -65,68 +67,6 @@ class _ProfileState extends State<Profile> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class ProfileElement extends StatelessWidget {
-  final String text;
-
-  const ProfileElement({
-    super.key,
-    required this.text,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double desiredWidth = screenWidth * 0.5;
-    double maxWidth = 500.0;
-    double containerWidth = desiredWidth > maxWidth ? maxWidth : desiredWidth;
-
-    return SizedBox(
-      width: containerWidth,
-      child: Column(
-        children: [
-          ListTile(
-            title: Text(
-              text,
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ProfileSubElement extends StatelessWidget {
-  final String text;
-
-  const ProfileSubElement({
-    super.key,
-    required this.text,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double desiredWidth = screenWidth * 0.5;
-    double maxWidth = 500.0;
-    double containerWidth = desiredWidth > maxWidth ? maxWidth : desiredWidth;
-
-    return SizedBox(
-      width: containerWidth,
-      child: Column(
-        children: [
-          ListTile(
-            title: Text(
-              text,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
-        ],
       ),
     );
   }
