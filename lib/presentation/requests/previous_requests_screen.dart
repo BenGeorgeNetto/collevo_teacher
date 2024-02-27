@@ -1,4 +1,4 @@
-import 'package:collevo_teacher/widgets/previous_request_card.dart';
+import 'package:collevo_teacher/widgets/requests/previous_request_card.dart';
 import 'package:flutter/material.dart';
 import 'package:collevo_teacher/models/request.dart';
 import 'package:collevo_teacher/services/cloud/requests_fetch_service.dart';

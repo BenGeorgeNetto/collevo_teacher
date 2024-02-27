@@ -1,7 +1,7 @@
 import 'package:collevo_teacher/enums/status_enum.dart';
 import 'package:collevo_teacher/models/request.dart';
 import 'package:collevo_teacher/services/cloud/requests_fetch_service.dart';
-import 'package:collevo_teacher/widgets/pending_request_card.dart';
+import 'package:collevo_teacher/widgets/requests/pending_request_card.dart';
 import 'package:flutter/material.dart';
 
 class PendingRequests extends StatefulWidget {

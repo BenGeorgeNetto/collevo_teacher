@@ -1,6 +1,6 @@
 import 'package:collevo_teacher/models/request.dart';
 import 'package:collevo_teacher/services/cloud/requests_fetch_service.dart';
-import 'package:collevo_teacher/widgets/request_card.dart';
+import 'package:collevo_teacher/widgets/requests/request_card.dart';
 import 'package:flutter/material.dart';
 
 class AcceptedRequests extends StatefulWidget {
