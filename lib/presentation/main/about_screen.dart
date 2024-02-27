@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:collevo_teacher/utilities/communication/mail_util.dart';
+import 'package:collevo_teacher/widgets/about/about_element.dart';
+import 'package:collevo_teacher/widgets/about/about_sub_element.dart';
 import 'package:flutter/material.dart';
 
 class About extends StatefulWidget {
@@ -32,11 +34,6 @@ class _AboutState extends State<About> {
                 children: [
                   const AboutElement(text: "App Name"),
                   const AboutSubElement(text: "Collevo"),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.05 / 2,
-                  ),
-                  const AboutElement(text: "Version"),
-                  const AboutSubElement(text: "1.0.0-alpha"),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.05 / 2,
                   ),
@@ -75,68 +72,6 @@ class _AboutState extends State<About> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class AboutElement extends StatelessWidget {
-  final String text;
-
-  const AboutElement({
-    super.key,
-    required this.text,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double desiredWidth = screenWidth * 0.5;
-    double maxWidth = 500.0;
-    double containerWidth = desiredWidth > maxWidth ? maxWidth : desiredWidth;
-
-    return SizedBox(
-      width: containerWidth,
-      child: Column(
-        children: [
-          ListTile(
-            title: Text(
-              text,
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class AboutSubElement extends StatelessWidget {
-  final String text;
-
-  const AboutSubElement({
-    super.key,
-    required this.text,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double desiredWidth = screenWidth * 0.5;
-    double maxWidth = 500.0;
-    double containerWidth = desiredWidth > maxWidth ? maxWidth : desiredWidth;
-
-    return SizedBox(
-      width: containerWidth,
-      child: Column(
-        children: [
-          ListTile(
-            title: Text(
-              text,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
-        ],
       ),
     );
   }
