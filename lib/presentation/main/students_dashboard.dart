@@ -42,7 +42,7 @@ class _StudentsDashboardState extends State<StudentsDashboard> {
     int totalStudents = studentsSnapshot.docs.length;
 
     for (var doc in studentsSnapshot.docs) {
-      final student = doc.data() as Map<String, dynamic>;
+      final student = doc.data();
       final totalPoints = student['total_activity_points'] ?? 0;
       final name = student['s_name'];
       final email = student['email'];
