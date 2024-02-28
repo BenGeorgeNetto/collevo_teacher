@@ -124,6 +124,31 @@ class RequestCard extends StatelessWidget {
                                 style: Theme.of(context).textTheme.labelSmall,
                               ),
                               const SizedBox(height: 8),
+                              Text(
+                                'Year activity was done:',
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                              Text(
+                                getYearString(request.yearActivityDoneIn),
+                                style: Theme.of(context).textTheme.labelSmall,
+                              ),
+                              const SizedBox(height: 8),
+                              Visibility(
+                                visible: request.optionalMessage != "",
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Additional Comments:',
+                                      style: Theme.of(context).textTheme.bodyMedium,
+                                    ),
+                                    Text(
+                                      '${request.optionalMessage}',
+                                      style: Theme.of(context).textTheme.labelSmall,
+                                    ),
+                                  ],
+                                ),
+                              ),
                               // Text(
                               //   'Activity ID:',
                               //   style: Theme.of(context).textTheme.bodyMedium,
@@ -145,5 +170,19 @@ class RequestCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+String getYearString(int year) {
+  if (year == 1) {
+    return 'First Year';
+  } else if (year == 2) {
+    return 'Second Year';
+  } else if (year == 3) {
+    return 'Third Year';
+  } else if (year == 4) {
+    return 'Fourth Year';
+  } else {
+    return 'Unknown';
   }
 }
