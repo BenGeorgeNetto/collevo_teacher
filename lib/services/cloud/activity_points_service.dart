@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collevo_teacher/services/preferences/preferences_service.dart';
 
 class ActivityPointsService {
   final String email;
@@ -9,9 +10,14 @@ class ActivityPointsService {
   Future<int?> getTotalActivityPoints() async {
     try {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
+      final String? batch = await PreferencesService().getBatch();
 
-      DocumentSnapshot<Map<String, dynamic>> studentDocument =
-      await firestore.collection('students').doc(email).get();
+      DocumentSnapshot<Map<String, dynamic>> studentDocument = await firestore
+          .collection('students')
+          .doc(batch)
+          .collection('student_data')
+          .doc(email)
+          .get();
 
       if (studentDocument.exists) {
         // print('Document data: ${studentDocument.data()}');
@@ -31,9 +37,14 @@ class ActivityPointsService {
   Future<Map<String, int>> getActivityPoints() async {
     try {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
+      final String? batch = await PreferencesService().getBatch();
 
-      DocumentSnapshot<Map<String, dynamic>> studentDocument =
-      await firestore.collection('students').doc(email).get();
+      DocumentSnapshot<Map<String, dynamic>> studentDocument = await firestore
+          .collection('students')
+          .doc(batch)
+          .collection('student_data')
+          .doc(email)
+          .get();
 
       if (studentDocument.exists) {
         // print('Document data: ${studentDocument.data()}');
@@ -56,9 +67,14 @@ class ActivityPointsService {
   Future<String> getStudentName() async {
     try {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
+      final String? batch = await PreferencesService().getBatch();
 
-      DocumentSnapshot<Map<String, dynamic>> studentDocument =
-      await firestore.collection('students').doc(email).get();
+      DocumentSnapshot<Map<String, dynamic>> studentDocument = await firestore
+          .collection('students')
+          .doc(batch)
+          .collection('student_data')
+          .doc(email)
+          .get();
 
       if (studentDocument.exists) {
         // print('Document data: ${studentDocument.data()}');

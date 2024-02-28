@@ -25,10 +25,12 @@ class _StudentsDashboardState extends State<StudentsDashboard> {
 
   void fetchAndCategorizeStudents() async {
     PreferencesService preferencesService = PreferencesService();
-    String? tId = await preferencesService.getUid();
+    String? batch = await preferencesService.getBatch();
     var studentsSnapshot = await FirebaseFirestore.instance
         .collection('students')
-        .where("t_id", isEqualTo: tId)
+        .doc(batch)
+        .collection('student_data')
+        .where("batch", isEqualTo: batch)
         .get();
     Map<String, List<StudentInfo>> tempStudentsByCategory = {
       '0 - 25': [],

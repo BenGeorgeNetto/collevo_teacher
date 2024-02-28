@@ -8,11 +8,12 @@ class RequestsFetchService {
   // Map<String, int> activityPointsToBeAdded = assignedPoints;
   Future<List<Request>> fetchMyRequestsByStatus(Status status) async {
     try {
-      final String? currentUserUID = await PreferencesService().getUid();
+      final String? batch = await PreferencesService().getBatch();
 
       final querySnapshot = await FirebaseFirestore.instance
+          .collection('students')
+          .doc(batch)
           .collection('requests')
-          .where('assigned_to', isEqualTo: currentUserUID)
           .where('status', isEqualTo: status.index)
           .get();
 
@@ -28,6 +29,8 @@ class RequestsFetchService {
           activityType: doc['activity_type'],
           activity: doc['activity'],
           activityLevel: doc['activity_level'],
+          batch: doc['batch'],
+          yearActivityDoneIn: doc['year_activity_done_in'],
         );
       }).toList();
 
@@ -51,8 +54,11 @@ class RequestsFetchService {
   }
 
   Future<void> updateRequestStatus(Request request, Status status) async {
+    final String? batch = await PreferencesService().getBatch();
     try {
       final requestRef = FirebaseFirestore.instance
+          .collection('students')
+          .doc(batch)
           .collection('requests')
           .doc(request.requestId);
 
@@ -66,11 +72,16 @@ class RequestsFetchService {
   Future<Map<String, int>> getActivityPoints() async {
     final PreferencesService preferencesService = PreferencesService();
     final String? email = await preferencesService.getEmail();
+    final String? batch = await preferencesService.getBatch();
     try {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-      DocumentSnapshot<Map<String, dynamic>> studentDocument =
-          await firestore.collection('students').doc(email).get();
+      DocumentSnapshot<Map<String, dynamic>> studentDocument = await firestore
+          .collection('students')
+          .doc(batch)
+          .collection('student_data')
+          .doc(email)
+          .get();
 
       if (studentDocument.exists) {
         // print('Document data: ${studentDocument.data()}');
@@ -92,6 +103,7 @@ class RequestsFetchService {
 
   Future<void> insertActivityPoints(
       String activityId, String uid, int pointsToBeAdded) async {
+    final String? batch = await PreferencesService().getBatch();
     var activityIdSplit = activityId.split('_');
     var activityType = activityIdSplit[0];
     var activity = activityIdSplit[1];
@@ -102,6 +114,8 @@ class RequestsFetchService {
     try {
       final querySnapshot = await FirebaseFirestore.instance
           .collection('students')
+          .doc(batch)
+          .collection("student_data")
           .where('uid', isEqualTo: uid)
           .limit(1)
           .get();
@@ -111,9 +125,9 @@ class RequestsFetchService {
         final activityPointsData = studentDocument['activity_points'];
 
         int totalActivityPoints =
-            studentDocument.data().containsKey('total_activity_points')
-                ? studentDocument['total_activity_points']
-                : 0;
+        studentDocument.data().containsKey('total_activity_points')
+            ? studentDocument['total_activity_points']
+            : 0;
 
         // int newActivityPointsValue = activityPointsData[activityType]! +
         //     activityPointsToBeAdded[activityId]!;
@@ -147,8 +161,12 @@ class RequestsFetchService {
 
   Future<List<Request>> fetchPreviousAcceptedRequestsOfThatTypeByThatUser(
       String userId, String activityType) async {
+    final String? batch = await PreferencesService().getBatch();
+
     try {
       final querySnapshot = await FirebaseFirestore.instance
+          .collection('students')
+          .doc(batch)
           .collection('requests')
           .where('created_by', isEqualTo: userId)
           .where('status', isEqualTo: Status.approved.index)
@@ -167,6 +185,8 @@ class RequestsFetchService {
           activityType: doc['activity_type'],
           activity: doc['activity'],
           activityLevel: doc['activity_level'],
+          batch: doc['batch'],
+          yearActivityDoneIn: doc['year_activity_done_in'],
         );
       }).toList();
 
@@ -178,8 +198,12 @@ class RequestsFetchService {
   }
 
   Future<Request?> fetchRequestById(String requestId) async {
+    final String? batch = await PreferencesService().getBatch();
+
     try {
       final docSnapshot = await FirebaseFirestore.instance
+          .collection('students')
+          .doc(batch)
           .collection('requests')
           .doc(requestId)
           .get();
@@ -196,6 +220,8 @@ class RequestsFetchService {
           activityType: docSnapshot['activity_type'],
           activity: docSnapshot['activity'],
           activityLevel: docSnapshot['activity_level'],
+          batch: docSnapshot['batch'],
+          yearActivityDoneIn: docSnapshot['year_activity_done_in'],
         );
       } else {
         // print('No request found with ID: $requestId');
