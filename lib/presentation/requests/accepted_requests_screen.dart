@@ -94,7 +94,7 @@ class _AcceptedRequestsState extends State<AcceptedRequests> {
                           child: Text("No accepted requests found."),
                         );
                       } else {
-                        requests.sort((a, b) {
+                        requests.sort((b, a) {
                           if (_sortOption == 'Time') {
                             return a.createdAt.compareTo(b.createdAt);
                           } else {
