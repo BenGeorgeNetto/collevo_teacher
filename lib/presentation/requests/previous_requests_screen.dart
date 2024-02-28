@@ -38,7 +38,8 @@ class _PreviousRequestsState extends State<PreviousRequests> {
         return [];
       }
     } catch (e) {
-      throw Exception('Failed to fetch data: $e');
+      return [];
+      // throw Exception('Failed to fetch data: $e');
     }
   }
 
