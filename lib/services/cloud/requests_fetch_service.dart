@@ -24,13 +24,13 @@ class RequestsFetchService {
           createdBy: doc['created_by'],
           createdAt: doc['created_at'].toDate(),
           imageUrl: doc['image_url'],
-          assignedTo: doc['assigned_to'],
           status: Status.values[doc['status']],
           activityType: doc['activity_type'],
           activity: doc['activity'],
           activityLevel: doc['activity_level'],
           batch: doc['batch'],
           yearActivityDoneIn: doc['year_activity_done_in'],
+          optionalMessage: doc['optional_message'],
         );
       }).toList();
 
@@ -61,6 +61,8 @@ class RequestsFetchService {
           .doc(batch)
           .collection('requests')
           .doc(request.requestId);
+
+      print(requestRef);
 
       int statusIndex = status.index;
       await requestRef.update({'status': statusIndex});
@@ -180,7 +182,6 @@ class RequestsFetchService {
           createdBy: doc['created_by'],
           createdAt: doc['created_at'].toDate(),
           imageUrl: doc['image_url'],
-          assignedTo: doc['assigned_to'],
           status: Status.values[doc['status']],
           activityType: doc['activity_type'],
           activity: doc['activity'],
@@ -215,7 +216,6 @@ class RequestsFetchService {
           createdBy: docSnapshot['created_by'],
           createdAt: docSnapshot['created_at'].toDate(),
           imageUrl: docSnapshot['image_url'],
-          assignedTo: docSnapshot['assigned_to'],
           status: Status.values[docSnapshot['status']],
           activityType: docSnapshot['activity_type'],
           activity: docSnapshot['activity'],
