@@ -48,17 +48,17 @@ class _ProfileState extends State<Profile> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const ProfileElement(text: "Name"),
-                  ProfileSubElement(text: name!),
+                  ProfileSubElement(text: '$name'),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.05 / 2,
                   ),
                   const ProfileElement(text: "Email"),
-                  ProfileSubElement(text: email!),
+                  ProfileSubElement(text: '$email'),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.05 / 2,
                   ),
                   const ProfileElement(text: "Batch"),
-                  ProfileSubElement(text: batch!),
+                  ProfileSubElement(text: '$batch'),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.05 / 2,
                   ),
