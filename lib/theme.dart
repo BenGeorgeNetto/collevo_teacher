@@ -30,6 +30,7 @@ class CustomTheme {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: CustomColors.buttonBlue,
+          foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 36.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.2),
