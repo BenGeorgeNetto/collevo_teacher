@@ -1,6 +1,6 @@
 import 'package:collevo_teacher/models/request.dart';
 import 'package:collevo_teacher/services/cloud/requests_fetch_service.dart';
-import 'package:collevo_teacher/widgets/requests/request_card.dart';
+import 'package:collevo_teacher/widgets/requests/rejected_request_card.dart';
 import 'package:flutter/material.dart';
 
 class RejectedRequests extends StatefulWidget {
@@ -105,7 +105,7 @@ class _RejectedRequestsState extends State<RejectedRequests> {
                           itemCount: requests.length,
                           itemBuilder: (context, index) {
                             final request = requests[index];
-                            return RequestCard(request: request);
+                            return RejectedRequestCard(request: request);
                           },
                         );
                       }
