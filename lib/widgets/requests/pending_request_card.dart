@@ -257,6 +257,7 @@ class PendingRequestCard extends StatelessWidget {
                                         onAccept?.call(pointsGoingToBeAdded),
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.green,
+                                      foregroundColor: Colors.white,
                                     ),
                                     child: const Text('Accept'),
                                   ),
@@ -264,6 +265,7 @@ class PendingRequestCard extends StatelessWidget {
                                     onPressed: onReject,
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.red,
+                                      foregroundColor: Colors.white,
                                     ),
                                     child: const Text('Reject'),
                                   ),

@@ -1,3 +1,4 @@
+import 'package:collevo_teacher/data/activity_max_points.dart';
 import 'package:collevo_teacher/enums/status_enum.dart';
 import 'package:collevo_teacher/models/request.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,6 +6,7 @@ import 'package:collevo_teacher/services/preferences/preferences_service.dart';
 
 class RequestsFetchService {
   Map<String, int> activityPoints = {};
+
   // Map<String, int> activityPointsToBeAdded = assignedPoints;
   Future<List<Request>> fetchMyRequestsByStatus(Status status) async {
     try {
@@ -62,7 +64,7 @@ class RequestsFetchService {
           .collection('requests')
           .doc(request.requestId);
 
-      print(requestRef);
+      // print(requestRef);
 
       int statusIndex = status.index;
       await requestRef.update({'status': statusIndex});
@@ -71,9 +73,8 @@ class RequestsFetchService {
     }
   }
 
-  Future<Map<String, int>> getActivityPoints() async {
+  Future<Map<String, int>> getActivityPoints(String uid) async {
     final PreferencesService preferencesService = PreferencesService();
-    final String? email = await preferencesService.getEmail();
     final String? batch = await preferencesService.getBatch();
     try {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -82,8 +83,10 @@ class RequestsFetchService {
           .collection('students')
           .doc(batch)
           .collection('student_data')
-          .doc(email)
-          .get();
+          .where('uid', isEqualTo: uid)
+          .limit(1)
+          .get()
+          .then((value) => value.docs.first);
 
       if (studentDocument.exists) {
         // print('Document data: ${studentDocument.data()}');
@@ -161,6 +164,25 @@ class RequestsFetchService {
     }
   }
 
+  Future<void> setGivenActivityPoints(
+      String requestId, int pointsToBeAdded) async {
+    try {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      final String? batch = await PreferencesService().getBatch();
+
+      firestore
+          .collection('students')
+          .doc(batch)
+          .collection('requests')
+          .doc(requestId)
+          .update({
+        'awarded_points': pointsToBeAdded,
+      });
+    } catch (e) {
+      // print('Error setting given activity points: $e');
+    }
+  }
+
   Future<List<Request>> fetchPreviousAcceptedRequestsOfThatTypeByThatUser(
       String userId, String activityType) async {
     final String? batch = await PreferencesService().getBatch();
@@ -188,6 +210,7 @@ class RequestsFetchService {
           activityLevel: doc['activity_level'],
           batch: doc['batch'],
           yearActivityDoneIn: doc['year_activity_done_in'],
+          awardedPoints: doc['awarded_points'] ?? -1,
         );
       }).toList();
 
@@ -230,6 +253,46 @@ class RequestsFetchService {
     } catch (e) {
       // print('Error fetching request: $e');
       return null;
+    }
+  }
+
+  Future<bool> checkIfCanInsertActivityPoints(
+      String activityId, String uid, int pointsToBeAdded) async {
+    var activityIdSplit = activityId.split('_');
+    var activityType = activityIdSplit[0];
+    var activity = activityIdSplit[1];
+
+    var activityPartialId = '${activityType}_$activity';
+
+    Map<String, int> activityPoints = await getActivityPoints(uid);
+
+    if (activityPoints[activityType]! + pointsToBeAdded <=
+        maxPoints[activityType]!) {
+      if (activityPoints[activityPartialId]! + pointsToBeAdded <=
+          maxPoints[activityPartialId]!) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  Future<void> updateRequestStatusWithRemark(
+      Request request, Status status, String remark) async {
+    final String? batch = await PreferencesService().getBatch();
+    try {
+      final requestRef = FirebaseFirestore.instance
+          .collection('students')
+          .doc(batch)
+          .collection('requests')
+          .doc(request.requestId);
+
+      int statusIndex = status.index;
+      await requestRef.update({
+        'status': statusIndex,
+        'optional_remark': remark,
+      });
+    } catch (e) {
+      // print('Error updating request status: $e');
     }
   }
 }

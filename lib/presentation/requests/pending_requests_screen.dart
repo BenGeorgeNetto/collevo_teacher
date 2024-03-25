@@ -1,6 +1,8 @@
 import 'package:collevo_teacher/enums/status_enum.dart';
 import 'package:collevo_teacher/models/request.dart';
 import 'package:collevo_teacher/services/cloud/requests_fetch_service.dart';
+import 'package:collevo_teacher/utilities/dialogs/cannot_accept_request_dialog.dart';
+import 'package:collevo_teacher/utilities/dialogs/reject_request_dialog.dart';
 import 'package:collevo_teacher/widgets/requests/pending_request_card.dart';
 import 'package:flutter/material.dart';
 
@@ -110,15 +112,44 @@ class _PendingRequestsState extends State<PendingRequests> {
                             final request = requests[index];
                             return PendingRequestCard(
                               request: request,
-                              onAccept: (int pointsToBeAdded) {
-                                _requestsFetchService.insertActivityPoints(
+                              onAccept: (int pointsToBeAdded) async {
+                                bool canInsert = await _requestsFetchService
+                                    .checkIfCanInsertActivityPoints(
+                                  request.activityId,
+                                  request.createdBy,
+                                  pointsToBeAdded,
+                                );
+                                if (canInsert) {
+                                  _requestsFetchService.insertActivityPoints(
                                     request.activityId,
                                     request.createdBy,
-                                    pointsToBeAdded);
-                                _updateRequestStatus(request, Status.approved);
+                                    pointsToBeAdded,
+                                  );
+                                  _requestsFetchService.setGivenActivityPoints(
+                                    request.requestId,
+                                    pointsToBeAdded,
+                                  );
+                                  _updateRequestStatus(
+                                    request,
+                                    Status.approved,
+                                  );
+                                } else {
+                                  showCannotAcceptRequestDialog(
+                                    context,
+                                    'The request cannot be accepted as it exceeds the maximum allowed points. Please reject the request.',
+                                  );
+                                }
                               },
-                              onReject: () {
-                                _updateRequestStatus(request, Status.rejected);
+                              onReject: () async {
+                                String? reason =
+                                    await showRejectRequestDialog(context);
+                                if (reason != null && reason.isNotEmpty) {
+                                  _updateRequestStatusWithRemark(
+                                    request,
+                                    Status.rejected,
+                                    reason,
+                                  );
+                                }
                               },
                             );
                           },
@@ -139,6 +170,21 @@ class _PendingRequestsState extends State<PendingRequests> {
     try {
       final requestsService = RequestsFetchService();
       await requestsService.updateRequestStatus(request, status);
+      _loadRequests();
+    } catch (e) {
+      // print("Error updating request status: $e");
+    }
+  }
+
+  Future<void> _updateRequestStatusWithRemark(
+      Request request, Status status, String remark) async {
+    try {
+      final requestsService = RequestsFetchService();
+      await requestsService.updateRequestStatusWithRemark(
+        request,
+        status,
+        remark,
+      );
       _loadRequests();
     } catch (e) {
       // print("Error updating request status: $e");
