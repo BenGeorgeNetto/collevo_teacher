@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'generic_dialog.dart';
-
 Future<String?> showRejectRequestDialog(BuildContext context) async {
   double screenWidth = MediaQuery.of(context).size.width;
   double desiredWidth = screenWidth * 0.5;
