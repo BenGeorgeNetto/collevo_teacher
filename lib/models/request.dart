@@ -53,6 +53,7 @@ class Request {
   }
 
   factory Request.fromMap(Map<String, dynamic> map) {
+    print(map);
     return Request(
       requestId: map['request_id'] as String,
       activityId: map['activity_id'] as String,
@@ -67,7 +68,7 @@ class Request {
       yearActivityDoneIn: map['year_activity_done_in'] as int,
       optionalMessage: map['optional_message'] as String?,
       optionalRemark: map['optional_remark'] as String?,
-      awardedPoints: map['awarded_points'] as int?,
+      awardedPoints: map['awarded_points'] as int? ?? 0,
     );
   }
 }
