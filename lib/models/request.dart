@@ -53,7 +53,6 @@ class Request {
   }
 
   factory Request.fromMap(Map<String, dynamic> map) {
-    print(map);
     return Request(
       requestId: map['request_id'] as String,
       activityId: map['activity_id'] as String,

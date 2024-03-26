@@ -11,7 +11,6 @@ class AcceptedRequestCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print(request.awardedPoints);
     var requestIdSplit = request.requestId.split('_');
     final studentName = requestIdSplit[1];
     double imageMaxSize = 900;
