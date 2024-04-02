@@ -127,8 +127,8 @@ class PendingRequestCard extends StatelessWidget {
                                             : Icons.edit),
                                         onPressed: () {
                                           if (isEditingValue) {
-                                            pointsGoingToBeAdded =
-                                                int.parse(pointsController.text);
+                                            pointsGoingToBeAdded = int.parse(
+                                                pointsController.text);
                                           } else {
                                             // Request focus to the TextField
                                             focusNode.requestFocus();
@@ -138,11 +138,13 @@ class PendingRequestCard extends StatelessWidget {
                                       ),
                                       ValueListenableBuilder<bool>(
                                         valueListenable: isReset,
-                                        builder: (context, isResetValue, child) {
+                                        builder:
+                                            (context, isResetValue, child) {
                                           return (pointsGoingToBeAdded !=
                                                   defaultActivityPoints)
                                               ? IconButton(
-                                                  icon: const Icon(Icons.refresh),
+                                                  icon:
+                                                      const Icon(Icons.refresh),
                                                   onPressed: () {
                                                     pointsGoingToBeAdded =
                                                         defaultActivityPoints;
@@ -150,7 +152,8 @@ class PendingRequestCard extends StatelessWidget {
                                                         defaultActivityPoints
                                                             .toString();
                                                     // Trigger a rebuild
-                                                    isReset.value = !isResetValue;
+                                                    isReset.value =
+                                                        !isResetValue;
                                                   },
                                                 )
                                               : Container();
@@ -213,11 +216,15 @@ class PendingRequestCard extends StatelessWidget {
                                   children: [
                                     Text(
                                       'Additional Comments:',
-                                      style: Theme.of(context).textTheme.bodyMedium,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
                                     ),
                                     Text(
                                       '${request.optionalMessage}',
-                                      style: Theme.of(context).textTheme.labelSmall,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall,
                                     ),
                                   ],
                                 ),
@@ -250,7 +257,8 @@ class PendingRequestCard extends StatelessWidget {
                               const SizedBox(height: 16),
                               Row(
                                 mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   ElevatedButton(
                                     onPressed: () =>

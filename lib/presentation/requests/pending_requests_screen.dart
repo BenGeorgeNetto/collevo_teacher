@@ -134,6 +134,7 @@ class _PendingRequestsState extends State<PendingRequests> {
                                     Status.approved,
                                   );
                                 } else {
+                                  // ignore: use_build_context_synchronously
                                   showCannotAcceptRequestDialog(
                                     context,
                                     'The request cannot be accepted as it exceeds the maximum allowed points. Please reject the request.',
