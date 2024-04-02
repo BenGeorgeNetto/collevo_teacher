@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:collevo_teacher/landing.dart';
 import 'package:collevo_teacher/services/auth/bloc/auth_bloc.dart';
 import 'package:collevo_teacher/utilities/dialogs/logout_dialog.dart';
 import 'package:collevo_teacher/widgets/settings/settings_element.dart';
@@ -47,16 +46,15 @@ class _SettingsState extends State<Settings> {
                     onTap: () async {
                       final shouldLogout = await showLogOutDialog(context);
                       if (shouldLogout) {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          "/",
+                          (route) => false,
+                        );
+                        Future.delayed(const Duration(milliseconds: 100));
                         context.read<AuthBloc>().add(
                               const AuthEventLogOut(),
                             );
-                        Future.delayed(const Duration(milliseconds: 1000));
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const Landing(),
-                          ),
-                        );
                       }
                     },
                   ),
