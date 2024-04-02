@@ -62,6 +62,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     routeName: '/students_dashboard',
                   ),
                   SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.05 / 4,
+                  ),
+                  const HomeCard(
+                    cardText: "Export Student Data",
+                    routeName: '/export_student_data',
+                  ),
+                  SizedBox(
                     height: MediaQuery.of(context).size.height * 0.05 / 2,
                   ),
                   const HomeCard(
