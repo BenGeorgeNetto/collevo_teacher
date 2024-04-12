@@ -30,7 +30,6 @@ class _StudentsDashboardState extends State<StudentsDashboard> {
         .collection('students')
         .doc(batch)
         .collection('student_data')
-        .where("batch", isEqualTo: batch)
         .get();
     Map<String, List<StudentInfo>> tempStudentsByCategory = {
       '0 - 25': [],
