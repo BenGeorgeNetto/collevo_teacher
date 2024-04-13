@@ -90,6 +90,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     routeName: '/rejected_requests',
                   ),
                   SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.05 / 4,
+                  ),
+                  const HomeCard(
+                    cardText: "Modify Accepted Requests",
+                    routeName: '/modify_accepted_request',
+                  ),
+                  SizedBox(
                     height: MediaQuery.of(context).size.height * 0.05 / 2,
                   ),
                   const HomeCard(

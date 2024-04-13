@@ -6,6 +6,8 @@ import 'package:collevo_teacher/presentation/main/students_dashboard.dart';
 import 'package:collevo_teacher/presentation/requests/accepted_requests_screen.dart';
 import 'package:collevo_teacher/presentation/main/error_screen.dart';
 import 'package:collevo_teacher/presentation/main/home_screen.dart';
+import 'package:collevo_teacher/presentation/requests/modify_accepted_request_screen.dart';
+import 'package:collevo_teacher/presentation/requests/modify_accepted_request_student_screen.dart';
 import 'package:collevo_teacher/presentation/requests/pending_requests_screen.dart';
 import 'package:collevo_teacher/presentation/main/profile_screen.dart';
 import 'package:collevo_teacher/presentation/requests/previous_requests_screen.dart';
@@ -90,6 +92,20 @@ class Routes {
     },
   );
 
+  static final Handler _modifyAcceptedRequest = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+      return const ModifyAcceptedRequestScreen();
+    },
+  );
+
+  static final Handler _modifyAcceptedRequestStudent = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+      String uid = params["uid"]?.first;
+      String email = params["email"]?.first;
+      return ModifyAcceptedRequestsStudentScreen(uid: uid, email: email);
+    },
+  );
+
   static final Handler _errorHandler = Handler(
     handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
       return const ErrorScreen();
@@ -155,6 +171,16 @@ class Routes {
     router.define(
       '/settings',
       handler: _settings,
+      transitionType: TransitionType.fadeIn,
+    );
+    router.define(
+      '/modify_accepted_request',
+      handler: _modifyAcceptedRequest,
+      transitionType: TransitionType.fadeIn,
+    );
+    router.define(
+      '/modify_accepted_request_student/:uid/:email',
+      handler: _modifyAcceptedRequestStudent,
       transitionType: TransitionType.fadeIn,
     );
     router.define(

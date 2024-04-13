@@ -9,42 +9,42 @@ class RequestsFetchService {
 
   // Map<String, int> activityPointsToBeAdded = assignedPoints;
   Future<List<Request>> fetchMyRequestsByStatus(Status status) async {
-  try {
-    final String? batch = await PreferencesService().getBatch();
+    try {
+      final String? batch = await PreferencesService().getBatch();
 
-    final querySnapshot = await FirebaseFirestore.instance
-        .collection('students')
-        .doc(batch)
-        .collection('requests')
-        .where('status', isEqualTo: status.index)
-        .get();
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('students')
+          .doc(batch)
+          .collection('requests')
+          .where('status', isEqualTo: status.index)
+          .get();
 
-    final List<Request> myRequests = querySnapshot.docs.map((doc) {
-      final data = doc.data();
-      return Request(
-        requestId: data['request_id'],
-        activityId: data['activity_id'],
-        createdBy: data['created_by'],
-        createdAt: data['created_at'].toDate(),
-        imageUrl: data['image_url'],
-        status: Status.values[data['status']],
-        activityType: data['activity_type'],
-        activity: data['activity'],
-        activityLevel: data['activity_level'],
-        batch: data['batch'],
-        yearActivityDoneIn: data['year_activity_done_in'],
-        optionalMessage: data['optional_message'],
-        awardedPoints: data['awarded_points'] ?? -1,
-        optionalRemark: data['optional_remark'] ?? '',
-      );
-    }).toList();
+      final List<Request> myRequests = querySnapshot.docs.map((doc) {
+        final data = doc.data();
+        return Request(
+          requestId: data['request_id'],
+          activityId: data['activity_id'],
+          createdBy: data['created_by'],
+          createdAt: data['created_at'].toDate(),
+          imageUrl: data['image_url'],
+          status: Status.values[data['status']],
+          activityType: data['activity_type'],
+          activity: data['activity'],
+          activityLevel: data['activity_level'],
+          batch: data['batch'],
+          yearActivityDoneIn: data['year_activity_done_in'],
+          optionalMessage: data['optional_message'],
+          awardedPoints: data['awarded_points'] ?? -1,
+          optionalRemark: data['optional_remark'] ?? '',
+        );
+      }).toList();
 
-    return myRequests;
-  } catch (e) {
-    // print('Error fetching requests: $e');
-    return [];
+      return myRequests;
+    } catch (e) {
+      // print('Error fetching requests: $e');
+      return [];
+    }
   }
-}
 
   Future<List<Request>> fetchApprovedRequests() async {
     return fetchMyRequestsByStatus(Status.approved);
@@ -133,9 +133,9 @@ class RequestsFetchService {
         final activityPointsData = studentDocument['activity_points'];
 
         int totalActivityPoints =
-        studentDocument.data().containsKey('total_activity_points')
-            ? studentDocument['total_activity_points']
-            : 0;
+            studentDocument.data().containsKey('total_activity_points')
+                ? studentDocument['total_activity_points']
+                : 0;
 
         // int newActivityPointsValue = activityPointsData[activityType]! +
         //     activityPointsToBeAdded[activityId]!;
@@ -300,6 +300,46 @@ class RequestsFetchService {
       });
     } catch (e) {
       // print('Error updating request status: $e');
+    }
+  }
+
+  Future<List<Request>> fetchRequestsByStatusAndUid(
+      Status status, String uid) async {
+    try {
+      final String? batch = await PreferencesService().getBatch();
+
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('students')
+          .doc(batch)
+          .collection('requests')
+          .where('status', isEqualTo: status.index)
+          .where('created_by', isEqualTo: uid)
+          .get();
+
+      final List<Request> myRequests = querySnapshot.docs.map((doc) {
+        final data = doc.data();
+        return Request(
+          requestId: data['request_id'],
+          activityId: data['activity_id'],
+          createdBy: data['created_by'],
+          createdAt: data['created_at'].toDate(),
+          imageUrl: data['image_url'],
+          status: Status.values[data['status']],
+          activityType: data['activity_type'],
+          activity: data['activity'],
+          activityLevel: data['activity_level'],
+          batch: data['batch'],
+          yearActivityDoneIn: data['year_activity_done_in'],
+          optionalMessage: data['optional_message'],
+          awardedPoints: data['awarded_points'] ?? -1,
+          optionalRemark: data['optional_remark'] ?? '',
+        );
+      }).toList();
+
+      return myRequests;
+    } catch (e) {
+      // print('Error fetching requests: $e');
+      return [];
     }
   }
 }
