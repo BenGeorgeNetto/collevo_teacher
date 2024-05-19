@@ -32,7 +32,6 @@ class _PendingRequestsState extends State<PendingRequests> {
 
   @override
   Widget build(BuildContext context) {
-    // var radioWidth = MediaQuery.of(context).size.width * 0.02;
     var radioWidth = 32.0;
     return SafeArea(
       child: Scaffold(
@@ -100,12 +99,15 @@ class _PendingRequestsState extends State<PendingRequests> {
                         );
                       } else {
                         requests.sort((a, b) {
-                          if (_sortOption == 'createdAt') {
+                          if (_sortOption == 'Time') {
                             return a.createdAt.compareTo(b.createdAt);
                           } else {
-                            return a.createdBy.compareTo(b.createdBy);
+                            String nameA = a.requestId.split('_')[1];
+                            String nameB = b.requestId.split('_')[1];
+                            return nameA.compareTo(nameB);
                           }
                         });
+
                         return ListView.builder(
                           itemCount: requests.length,
                           itemBuilder: (context, index) {
